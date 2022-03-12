@@ -1,10 +1,13 @@
 class ApplicationController < ActionController::Base
-  before_action :set_current_user
+  before_action :require_login
+
+  def current_user
+    @current_user ||= User.find_by(id: session[:user_id])
+  end
 
   private
 
-  def set_current_user
-    puts session[:user_id]
-    @current_user = User.find_by(id: session[:user_id])
+  def require_login
+    redirect_to login_path unless current_user.present?
   end
 end
