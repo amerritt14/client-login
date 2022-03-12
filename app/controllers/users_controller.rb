@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, only: %i(new create)
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
@@ -25,7 +26,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
+        set_user_session
+        format.html { redirect_to root_path, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -63,8 +65,12 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def set_user_session
+      session[:user_id] = @user.id
+    end
+
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :password, :name)
+      params.require(:user).permit(:email, :password, :password_confirmation, :name)
     end
 end

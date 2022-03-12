@@ -21,6 +21,13 @@
     <%= form.text_field :password %>
   </div>
 
+  <%- if @user.new_record? %>
+    <div>
+      <%= form.label :password_confirmation, style: "display: block" %>
+      <%= form.text_field :password_confirmation %>
+    </div>
+  <% end %>
+
   <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
