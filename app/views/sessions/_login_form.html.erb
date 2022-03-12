@@ -1,0 +1,11 @@
+<%= form_with(model: User.new, url: new_session_path) do |form| %>
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div>
+    <%= form.label :password, style: "display: block" %>
+    <%= form.text_field :password %>
+  </div>
+<% end %>
